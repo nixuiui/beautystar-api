@@ -21,7 +21,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden       = [
         'password', 'remember_token',
     ];
-    protected $append       = ['photo', 'phone'];
+    protected $append       = ['photo', 'phone', 'balance_formatted', 'gender_alias'];
 
 
     protected static function boot() {
@@ -57,13 +57,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     // ATTRIBUTE
     public function getPhotoAttribute(){
         if($this->profile_photo)
-            return asset('storage/profile/' . $this->profile_photo);
-        return asset('image/noimage2.png');
+            return env('APP_URL_WEB') . '/storage/profile/' . $this->profile_photo;
+        return env('APP_URL_WEB') . '/image/noimage2.png';
     }
     public function getPhoneAttribute(){
         if($this->no_hp)
             return "+62" . $this->no_hp;
         return null;
+    }
+    public function getBalanceFormattedAttribute(){
+        return formatUang($this->balance);
+    }
+    public function getGenderAliasAttribute(){
+        return $this->gender == 1101 ? "Laki-laki" : "Perempuan";
     }
 
     public function getJWTIdentifier()
@@ -73,6 +79,30 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    // $data is Array Data
+    // $additionalAttribute is Array Data
+    public static function mapData($data, $additionalAttribute = null) {
+        $result = [
+            'id' => $data->id,
+            'name' => $data->name,
+            'username' => $data->username,
+            'email' => $data->email,
+            'balance' => $data->balance,
+            'balance_formatted' => $data->balance_formatted,
+            'gender' => $data->gender,
+            'gender_alias' => $data->gender_alias,
+            'birth_date' => $data->birth_date,
+            'birth_date_formatted' => tanggal($data->birth_date),
+            'photo' => $data->photo,
+            'address_id' => $data->address_id,
+            'phone' => $data->phone
+        ];
+        if($additionalAttribute) {
+            $result = array_merge($result, $additionalAttribute);
+        }
+        return $result;
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -13,18 +14,8 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login']]);
-    }
-
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(Request $request)
-    {
+    
+    public function login(Request $request) {
         $loginWithEmail = app('auth')->attempt(['email' => $request->username, 'password' => $request->password]);
         $loginWithUsername = app('auth')->attempt(['username' => $request->username, 'password' => $request->password]);
         if ($loginWithEmail) {
@@ -40,59 +31,34 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(app('auth')->user());
+    public function username(Request $request) {
+        if(User::where('username', $request->username)->first())
+            return $this->responseError("Username sudah digunakan");
+        return $this->responseOK("Username tersedia");
     }
-
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
-    {
+    
+    public function email(Request $request) {
+        if(User::where('email', $request->email)->first())
+            return $this->responseError("Email sudah digunakan");
+        return $this->responseOK("Email tersedia");
+    }
+    
+    public function logout() {
         app('auth')->logout();
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->responseOK('Successfully logged out', null);
     }
 
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
+    public function refresh() {
         return $this->respondWithToken(app('auth')->refresh());
     }
 
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        $data = [
-            'id' => app('auth')->id(),
-            'name' => app('auth')->user()->name,
-            'username' => app('auth')->user()->username,
-            'email' => app('auth')->user()->email,
-            'balance' => app('auth')->user()->balance,
-            'gender' => app('auth')->user()->gender,
-            'birth_date' => app('auth')->user()->birth_date,
-            // 'photo' => app('auth')->user()->photo,
+    protected function respondWithToken($token) {
+        $token = [
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => app('auth')->factory()->getTTL() * 60
         ];
+        $data = User::mapData(app('auth')->user(), $token);
         return $this->responseOK(null, $data);
     }
 }

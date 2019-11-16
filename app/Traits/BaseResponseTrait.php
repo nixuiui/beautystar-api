@@ -27,13 +27,13 @@ trait BaseResponseTrait {
         return response()->json($attribue, $responseCode);
     }
 
-    public function responseError($message = null, $data) {
+    public function responseError($message = null, $data = null, $responseCode = 200) {
         $attribue = [
             "status"    => "ERROR",
             "message"   => $message,
             "data"      => $data
         ];
-        return response()->json($attribue);
+        return response()->json($attribue, $responseCode);
     }
     
 }

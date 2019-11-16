@@ -15,15 +15,17 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-Route::group(['prefix' => 'auth'], function ($router) {
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+// -------------------------------------------
+// AUTH CONTROLLER
+// -------------------------------------------
+$router->group(['prefix' => 'auth'], function ($router) {
+    $router->post('login',      'AuthController@login');
+    $router->post('username',   'AuthController@username');
+    $router->post('email',      'AuthController@email');
+    $router->post('me',         ['uses' => 'AuthController@me', 'middleware' => 'auth']);
+    $router->get('logout',      ['uses' => 'AuthController@logout', 'middleware' => 'auth']);
 });
 
-Route::group(['middleware' => 'auth'], function ($router) {
-    Route::get('coba', function() {
-        return 0;
-    });
+$router->group(['prefix' => 'auth'], function ($router) {
+    $router->get('auth/logout', ['uses' => 'AuthController@logout', 'middleware' => 'auth']);
 });

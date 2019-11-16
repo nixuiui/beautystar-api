@@ -2,11 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Traits\BaseResponseTrait;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
 class Authenticate
 {
+    use BaseResponseTrait;
     /**
      * The authentication guard factory instance.
      *
@@ -36,7 +38,7 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+            return $this->responseError("Unauthorized", null, 401);
         }
 
         return $next($request);
