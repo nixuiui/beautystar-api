@@ -32,13 +32,13 @@ class MuaPortfolio extends Model
     }
     
     public function getPhotoUrlAttribute(){
-        return asset('storage/portfolios/' . $this->photo);
+        return env('APP_URL_WEB') . '/storage/portfolios/' . $this->photo;
     }
     public function getPhotoSquareAttribute(){
-        return asset('storage/portfolio-squares/' . $this->photo);
+        return env('APP_URL_WEB') . '/storage/portfolio-squares/' . $this->photo;
     }
     public function getPhotoThumbnailAttribute(){
-        return asset('storage/portfolio-thumbnails/' . $this->photo);
+        return env('APP_URL_WEB') . '/storage/portfolio-thumbnails/' . $this->photo;
     }
 
 }

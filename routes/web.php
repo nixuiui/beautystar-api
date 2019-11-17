@@ -26,6 +26,6 @@ $router->group(['prefix' => 'auth'], function ($router) {
     $router->get('logout',      ['uses' => 'AuthController@logout', 'middleware' => 'auth']);
 });
 
-$router->group(['prefix' => 'auth'], function ($router) {
-    $router->get('auth/logout', ['uses' => 'AuthController@logout', 'middleware' => 'auth']);
+$router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], function ($router) {
+    $router->get('/',       ['uses' => 'MuaController@muaInformation', 'middleware' => 'auth']);
 });

@@ -57,7 +57,7 @@ class Mua extends Model
     public function getThumbnailAttribute(){
         if($this->portfolios()->count() > 0)
             return $this->portfolios[0]->photo_thumbnail;
-        return asset('image/noimage1.png');
+        return env('APP_URL_WEB') . '/image/noimage1.png';
     }
     public function getFullAddressAttribute(){
         $address = "";
@@ -76,6 +76,31 @@ class Mua extends Model
     public function getSquarePhotoAttribute(){
         if($this->portfolios()->count() > 0)
             return $this->portfolios[0]->photo_square;
-        return asset('image/noimage2.png');
+        return env('APP_URL_WEB') . '/image/noimage2.png';
+    }
+
+    // $data is Array Data
+    // $additionalAttribute is Array Data
+    public static function mapData($data, $additionalAttribute = null) {
+        $result = [
+            'id' => $data->id,
+            'user_id' => $data->user_id,
+            'rate' => $data->rate,
+            'brand_name' => $data->brand_name,
+            'province_id' => $data->province_id,
+            'province' => $data->province->name,
+            'city_id' => $data->city_id,
+            'city' => $data->city->name,
+            'address' => $data->address,
+            'description' => $data->description,
+            'instagram' => $data->instagram,
+            'facebook' => $data->facebook,
+            'is_verified' => $data->is_verified,
+            'full_address' => $data->full_address
+        ];
+        if($additionalAttribute) {
+            $result = array_merge($result, $additionalAttribute);
+        }
+        return $result;
     }
 }
