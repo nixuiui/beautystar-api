@@ -27,5 +27,8 @@ $router->group(['prefix' => 'auth'], function ($router) {
 });
 
 $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], function ($router) {
-    $router->get('/',       ['uses' => 'MuaController@muaInformation', 'middleware' => 'auth']);
+    $router->get('/',                       ['uses' => 'MuaController@muaInformation', 'middleware' => 'auth']);
+    $router->get('/services',               ['uses' => 'MuaController@services', 'middleware' => 'auth']);
+    $router->get('/services/{id}',          ['uses' => 'MuaController@serviceDetail', 'middleware' => 'auth']);
+    $router->get('/services/{id}/delete',   ['uses' => 'MuaController@serviceDelete', 'middleware' => 'auth']);
 });

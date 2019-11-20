@@ -28,7 +28,11 @@ class MuaService extends Model
   	public function servicePackages() {
             return $this->hasMany('App\Models\MuaServicePackage', 'package_id');
     }
+    public function orders() {
+      return $this->hasMany('App\Models\MuaOrderDetail', 'service_id');
+    }
     
+    // APPEND ATTRIBUTE
     public function getPriceFormattedAttribute(){
         return formatUang($this->price);
     }
@@ -44,6 +48,31 @@ class MuaService extends Model
     }
     public function getFinalPriceFormattedAttribute(){
         return formatUang($this->promo);
+    }
+
+    public static function mapData($data, $additionalAttribute = null) {
+        $result = [
+            "id" => $data->id,
+            "mua_id" => $data->mua_id,
+            "category_id" => $data->category_id,
+            "name" => $data->name,
+            "description" => $data->description,
+            "price" => $data->price,
+            "promo" => $data->promo,
+            "duration" => $data->duration,
+            "duration_formatted" => duration($data->duration),
+            "min_person" => $data->min_person,
+            "is_premium" => $data->is_premium,
+            "is_promo" => $data->is_promo,
+            "price_formatted" => $data->price_formatted,
+            "final_price" => $data->final_price,
+            "final_price_formatted" => $data->final_price_formatted,
+            "created_at" => hariTanggal($data->created_at),
+        ];
+        if($additionalAttribute) {
+            $result = array_merge($result, $additionalAttribute);
+        }
+        return $result;
     }
 
 }
