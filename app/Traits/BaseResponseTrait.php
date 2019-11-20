@@ -36,4 +36,13 @@ trait BaseResponseTrait {
         return response()->json($attribue, $responseCode);
     }
     
+    public function responseNotValidInput($message = null, $data = null, $responseCode = 200) {
+        $attribue = [
+            "status"    => "INVALID_INPUT",
+            "message"   => $message,
+            "data"      => $data
+        ];
+        return response()->json($attribue, $responseCode);
+    }
+    
 }

@@ -29,6 +29,11 @@ $router->group(['prefix' => 'auth'], function ($router) {
 $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], function ($router) {
     $router->get('/',                       ['uses' => 'MuaController@muaInformation', 'middleware' => 'auth']);
     $router->get('/services',               ['uses' => 'MuaController@services', 'middleware' => 'auth']);
+    $router->post('/services/create',       ['uses' => 'MuaController@serviceCreate', 'middleware' => 'auth']);
     $router->get('/services/{id}',          ['uses' => 'MuaController@serviceDetail', 'middleware' => 'auth']);
     $router->get('/services/{id}/delete',   ['uses' => 'MuaController@serviceDelete', 'middleware' => 'auth']);
+});
+
+$router->group(['prefix' => 'masterdata'], function ($router) {
+    $router->get('/mua-service-categories',     ['uses' => 'MasterController@muaServiceCategories']);
 });
