@@ -41,4 +41,21 @@ class MuaPortfolio extends Model
         return env('APP_URL_WEB') . '/storage/portfolio-thumbnails/' . $this->photo;
     }
 
+    public static function mapData($data, $additionalAttribute = null) {
+        $result = [
+            'id' => $data->id,
+            'mua_id' => $data->mua_id,
+            'service_id' => $data->service_id,
+            'service' => $data->service->name,
+            'photo' => $data->photo,
+            'photo_square' => $data->photo_square,
+            'photo_thumbnail' => $data->photo_thumbnail,
+            'photo_url' => $data->photo_url
+        ];
+        if($additionalAttribute) {
+            $result = array_merge($result, $additionalAttribute);
+        }
+        return $result;
+    }
+
 }

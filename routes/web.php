@@ -32,10 +32,15 @@ $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], func
     $router->post('/services/create',       ['uses' => 'MuaController@serviceCreate', 'middleware' => 'auth']);
     $router->get('/services/{id}',          ['uses' => 'MuaController@serviceDetail', 'middleware' => 'auth']);
     $router->get('/services/{id}/delete',   ['uses' => 'MuaController@serviceDelete', 'middleware' => 'auth']);
+    $router->get('/portfolio',              ['uses' => 'MuaController@portfolio', 'middleware' => 'auth']);
+    $router->get('/portfolio/{id}/delete',  ['uses' => 'MuaController@portfolioDelete', 'middleware' => 'auth']);
+    $router->post('/portfolio/upload',      ['uses' => 'MuaController@portfolioUpload', 'middleware' => 'auth']);
 });
 
 $router->group(['prefix' => 'masterdata'], function ($router) {
     $router->get('/mua-service-categories',     ['uses' => 'MasterController@muaServiceCategories']);
     $router->get('/province',                   ['uses' => 'MasterController@province']);
+    $router->get('/city',                       ['uses' => 'MasterController@city']);
+    $router->get('/city',                       ['uses' => 'MasterController@city']);
     $router->get('/city',                       ['uses' => 'MasterController@city']);
 });

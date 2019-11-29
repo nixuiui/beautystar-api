@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Mua;
+use App\Models\MuaPortfolio;
 use App\Models\MuaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -92,6 +93,60 @@ class MuaController extends Controller {
             return $this->responseError("Gagal menghapus data layanan", null);
         }
         return $this->responseError("Data tidak ditemukan", null);
+    }
+
+    public function portfolio() {
+        $porfolios = MuaPortfolio::where("mua_id", Auth::user()->mua->id)->get();
+        $data = $porfolios->map(function($data){
+            return MuaPortfolio::mapData($data);
+        });
+        return $this->responseOK(null, $data);
+    }
+
+    public function portfolioDelete($id) {
+        // LOAD DETAIL SERVICE
+        $posrtfolio = MuaPortfolio::where("mua_id", Auth::user()->mua->id)->where("id", $id)->first();
+        if($posrtfolio) {
+            if($posrtfolio->delete())
+                return $this->responseOK("Portfolio berhasil dihapus", null);
+            return $this->responseError("Gagal menghapus portfolio", null);
+        }
+        return $this->responseError("Data tidak ditemukan", null);
+    }
+
+    public function portfolioUpload(Request $input) {
+        $data = ["file" => $input->file];
+        $data_string = json_encode($data);
+
+        $ch = curl_init(env('APP_URL_WEB') . '/ajax/mua-dashboard/portfolio/api');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data_string))
+        );
+
+        // DECODE JSON DATA
+        // {
+        //     "success": "OK",
+        //     "message": null,
+        //     "data": "201911292206301575039990.png"
+        // }
+        $result = json_decode(curl_exec($ch));
+        if($result->success == "OK") {
+            $portfolio = new MuaPortfolio;
+            $portfolio->mua_id = Auth::user()->mua->id;
+            $portfolio->photo = $result->data;
+            $portfolio->service_id = $input->service_id;
+            if($portfolio->save())
+                return $this->responseOK(null, MuaPortfolio::mapData($portfolio));
+            else
+                return $this->responseError("Gagal menyimpan portfolio", null);
+        }
+        else {
+            return $this->responseError("Gagal upload File", null);
+        }
     }
 
 }
