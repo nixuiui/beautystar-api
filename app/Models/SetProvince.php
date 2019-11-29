@@ -14,4 +14,11 @@ class SetProvince extends Model {
   	public function city() {
 		return $this->hasMany('App\Models\SetCity', 'province_id');
 	}
+
+	public static function mapData($data) {
+		return [
+			'id' => $data->id,
+			'name' => $data->name
+		];
+	}
 }
