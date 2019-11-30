@@ -21,4 +21,18 @@ class MuaOrderAdditionalCost extends Model
   	public function order() {
         return $this->belongsTo('App\Models\MuaOrder', 'order_id');
     }
+
+    public static function mapData($data, $additionalAttribute = null)
+    {
+        $result = [
+            "id" => $data->id,
+            "cost_for" => $data->cost_for,
+            "cost" => $data->cost,
+            "cost_formatted" => formatUang($data->cost)
+        ];
+        if ($additionalAttribute) {
+            $result = array_merge($result, $additionalAttribute);
+        }
+        return $result;
+    }
 }

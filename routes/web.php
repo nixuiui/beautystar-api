@@ -28,17 +28,31 @@ $router->group(['prefix' => 'auth'], function ($router) {
 
 $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], function ($router) {
     $router->get('/',                       ['uses' => 'MuaController@muaInformation', 'middleware' => 'auth']);
+    
+    // SERVICES
     $router->get('/services',               ['uses' => 'MuaController@services', 'middleware' => 'auth']);
     $router->post('/services/create',       ['uses' => 'MuaController@serviceCreate', 'middleware' => 'auth']);
     $router->get('/services/{id}',          ['uses' => 'MuaController@serviceDetail', 'middleware' => 'auth']);
     $router->get('/services/{id}/delete',   ['uses' => 'MuaController@serviceDelete', 'middleware' => 'auth']);
+    
+    // PORTFOLIOS
     $router->get('/portfolio',              ['uses' => 'MuaController@portfolio', 'middleware' => 'auth']);
     $router->get('/portfolio/{id}/delete',  ['uses' => 'MuaController@portfolioDelete', 'middleware' => 'auth']);
     $router->post('/portfolio/upload',      ['uses' => 'MuaController@portfolioUpload', 'middleware' => 'auth']);
+    
+    // ORDER
+    $router->get('/order/new',              ['uses' => 'OrderController@orderNewest', 'middleware' => 'auth']);
+    $router->get('/order/going',            ['uses' => 'OrderController@orderOnGoing', 'middleware' => 'auth']);
+    $router->get('/order/finish',           ['uses' => 'OrderController@orderFinished', 'middleware' => 'auth']);
+    $router->get('/order/cancel',           ['uses' => 'OrderController@orderCanceled', 'middleware' => 'auth']);
+    $router->get('/order/detail/{id}',      ['uses' => 'OrderController@detailOrder', 'middleware' => 'auth']);
+    $router->post('/order/approval/{id}',   ['uses' => 'OrderController@approvalOrder', 'middleware' => 'auth']);
+    $router->post('/order/complete/{id}',   ['uses' => 'OrderController@completeOrder', 'middleware' => 'auth']);
 });
 
 $router->group(['prefix' => 'profile'], function ($router) {
     $router->post('/edit/password',     ['uses' => 'ProfileController@editPassword', 'middleware' => 'auth']);
+    $router->post('/edit/general',      ['uses' => 'ProfileController@editGeneral', 'middleware' => 'auth']);
 });
 
 $router->group(['prefix' => 'masterdata'], function ($router) {

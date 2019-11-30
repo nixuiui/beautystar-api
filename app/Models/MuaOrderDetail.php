@@ -23,5 +23,27 @@ class MuaOrderDetail extends Model
     }
     public function service() {
         return $this->belongsTo('App\Models\MuaService', 'service_id')->withTrashed();
-  	}
+    }
+    
+    public static function mapData($data, $additionalAttribute = null) {
+        $result = [
+            "id" => $data->id,
+            "service_id" => $data->service_id,
+            "service" => $data->service->name,
+            "count" => $data->count,
+            "price" => $data->price,
+            "price_formatted" => formatUang($data->price),
+            "dp_price" => $data->dp_price,
+            "dp_price_formatted" => formatUang($data->dp_price),
+            "total_price" => $data->total_price,
+            "total_price_formatted" => formatUang($data->total_price),
+            "total_dp_price" => $data->total_dp_price,
+            "total_dp_price_formatted" => formatUang($data->total_dp_price)
+        ];
+        if($additionalAttribute) {
+            $result = array_merge($result, $additionalAttribute);
+        }
+        return $result;
+    }
+
 }
