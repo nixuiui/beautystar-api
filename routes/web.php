@@ -15,9 +15,9 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-// -------------------------------------------
-// AUTH CONTROLLER
-// -------------------------------------------
+/*-------------------------------------------
+| AUTH CONTROLLER
+-------------------------------------------*/
 $router->group(['prefix' => 'auth'], function ($router) {
     $router->post('login',      'AuthController@login');
     $router->post('username',   'AuthController@username');
@@ -29,18 +29,24 @@ $router->group(['prefix' => 'auth'], function ($router) {
 $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], function ($router) {
     $router->get('/',                       ['uses' => 'MuaController@muaInformation', 'middleware' => 'auth']);
     
-    // SERVICES
+    /*-------------------------------------------
+    | SERVICES
+    -------------------------------------------*/
     $router->get('/services',               ['uses' => 'MuaController@services', 'middleware' => 'auth']);
     $router->post('/services/create',       ['uses' => 'MuaController@serviceCreate', 'middleware' => 'auth']);
     $router->get('/services/{id}',          ['uses' => 'MuaController@serviceDetail', 'middleware' => 'auth']);
     $router->get('/services/{id}/delete',   ['uses' => 'MuaController@serviceDelete', 'middleware' => 'auth']);
     
-    // PORTFOLIOS
+    /*-------------------------------------------
+    | PORTFOLIOS
+    -------------------------------------------*/
     $router->get('/portfolio',              ['uses' => 'MuaController@portfolio', 'middleware' => 'auth']);
     $router->get('/portfolio/{id}/delete',  ['uses' => 'MuaController@portfolioDelete', 'middleware' => 'auth']);
     $router->post('/portfolio/upload',      ['uses' => 'MuaController@portfolioUpload', 'middleware' => 'auth']);
     
-    // ORDER
+    /*-------------------------------------------
+    | ORDERS
+    -------------------------------------------*/
     $router->get('/order/new',              ['uses' => 'OrderController@orderNewest', 'middleware' => 'auth']);
     $router->get('/order/going',            ['uses' => 'OrderController@orderOnGoing', 'middleware' => 'auth']);
     $router->get('/order/finish',           ['uses' => 'OrderController@orderFinished', 'middleware' => 'auth']);
@@ -48,6 +54,16 @@ $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], func
     $router->get('/order/detail/{id}',      ['uses' => 'OrderController@detailOrder', 'middleware' => 'auth']);
     $router->post('/order/approval/{id}',   ['uses' => 'OrderController@approvalOrder', 'middleware' => 'auth']);
     $router->post('/order/complete/{id}',   ['uses' => 'OrderController@completeOrder', 'middleware' => 'auth']);
+
+    /*-------------------------------------------
+    | SCHEDULE
+    -------------------------------------------*/
+    $router->get('/schedules',             ['uses' => 'ScheduleController@index', 'middleware' => 'auth']);
+    $router->get('/schedule/delete/{id}',  ['uses' => 'ScheduleController@deteleSchedule', 'middleware' => 'auth']);
+    $router->get('/schedule/detail/{id}',  ['uses' => 'ScheduleController@detail', 'middleware' => 'auth']);
+    $router->post('/schedule/create',      ['uses' => 'ScheduleController@create', 'middleware' => 'auth']);
+    $router->post('/schedule/edit/{id}',   ['uses' => 'ScheduleController@edit', 'middleware' => 'auth']);
+
 });
 
 $router->group(['prefix' => 'profile'], function ($router) {
