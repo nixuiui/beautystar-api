@@ -78,6 +78,15 @@ $router->group(['prefix' => 'profile', 'namespace' => 'Profile'], function ($rou
     $router->get('/address/delete/{id}',  ['uses' => 'AddressController@detele', 'middleware' => 'auth']);
     $router->post('/address/create',      ['uses' => 'AddressController@create', 'middleware' => 'auth']);
     $router->post('/address/edit/{id}',   ['uses' => 'AddressController@edit', 'middleware' => 'auth']);
+
+    /*-------------------------------------------
+    | BANK
+    -------------------------------------------*/
+    $router->get('/banks',              ['uses' => 'BankController@index', 'middleware' => 'auth']);
+    $router->get('/bank/detail/{id}',   ['uses' => 'BankController@detail', 'middleware' => 'auth']);
+    $router->get('/bank/delete/{id}',   ['uses' => 'BankController@detele', 'middleware' => 'auth']);
+    $router->post('/bank/create',       ['uses' => 'BankController@create', 'middleware' => 'auth']);
+    $router->post('/bank/edit/{id}',    ['uses' => 'BankController@edit', 'middleware' => 'auth']);
 });
 
 $router->group(['prefix' => 'masterdata'], function ($router) {
