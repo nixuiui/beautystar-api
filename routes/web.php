@@ -64,6 +64,11 @@ $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], func
     $router->post('/schedule/create',      ['uses' => 'ScheduleController@create', 'middleware' => 'auth']);
     $router->post('/schedule/edit/{id}',   ['uses' => 'ScheduleController@edit', 'middleware' => 'auth']);
 
+    /*-------------------------------------------
+    | FEEDBACK
+    -------------------------------------------*/
+    $router->get('/feedbacks',             ['uses' => 'FeedbackController@index', 'middleware' => 'auth']);
+
 });
 
 $router->group(['prefix' => 'profile', 'namespace' => 'Profile'], function ($router) {
