@@ -66,9 +66,18 @@ $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], func
 
 });
 
-$router->group(['prefix' => 'profile'], function ($router) {
+$router->group(['prefix' => 'profile', 'namespace' => 'Profile'], function ($router) {
     $router->post('/edit/password',     ['uses' => 'ProfileController@editPassword', 'middleware' => 'auth']);
     $router->post('/edit/general',      ['uses' => 'ProfileController@editGeneral', 'middleware' => 'auth']);
+
+    /*-------------------------------------------
+    | ADDRESS
+    -------------------------------------------*/
+    $router->get('/addresses',            ['uses' => 'AddressController@index', 'middleware' => 'auth']);
+    $router->get('/address/detail/{id}',  ['uses' => 'AddressController@detail', 'middleware' => 'auth']);
+    $router->get('/address/delete/{id}',  ['uses' => 'AddressController@detele', 'middleware' => 'auth']);
+    $router->post('/address/create',      ['uses' => 'AddressController@create', 'middleware' => 'auth']);
+    $router->post('/address/edit/{id}',   ['uses' => 'AddressController@edit', 'middleware' => 'auth']);
 });
 
 $router->group(['prefix' => 'masterdata'], function ($router) {
