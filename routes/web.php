@@ -67,7 +67,12 @@ $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], func
     /*-------------------------------------------
     | FEEDBACK
     -------------------------------------------*/
-    $router->get('/feedbacks',             ['uses' => 'FeedbackController@index', 'middleware' => 'auth']);
+    $router->get('/feedbacks',  ['uses' => 'FeedbackController@index', 'middleware' => 'auth']);
+
+    /*-------------------------------------------
+    | SETTINGS
+    -------------------------------------------*/
+    $router->post('/setting/general',   ['uses' => 'SettingController@index', 'middleware' => 'auth']);
 
 });
 
