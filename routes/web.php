@@ -74,6 +74,15 @@ $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], func
     -------------------------------------------*/
     $router->post('/setting/general',   ['uses' => 'SettingController@index', 'middleware' => 'auth']);
 
+    /*-------------------------------------------
+    | DOWNPAYMENT
+    -------------------------------------------*/
+    $router->get('/downpayments',             ['uses' => 'DownpaymentController@index', 'middleware' => 'auth']);
+    $router->get('/downpayment/delete/{id}',  ['uses' => 'DownpaymentController@detele', 'middleware' => 'auth']);
+    $router->get('/downpayment/detail/{id}',  ['uses' => 'DownpaymentController@detail', 'middleware' => 'auth']);
+    $router->post('/downpayment/create',      ['uses' => 'DownpaymentController@create', 'middleware' => 'auth']);
+    $router->post('/downpayment/edit/{id}',   ['uses' => 'DownpaymentController@edit', 'middleware' => 'auth']);
+
 });
 
 $router->group(['prefix' => 'profile', 'namespace' => 'Profile'], function ($router) {
