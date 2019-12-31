@@ -86,6 +86,7 @@ $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], func
 });
 
 $router->group(['prefix' => 'profile', 'namespace' => 'Profile'], function ($router) {
+    $router->get('/accountinformation', ['uses' => 'ProfileController@accountInformation', 'middleware' => 'auth']);
     $router->post('/edit/password',     ['uses' => 'ProfileController@editPassword', 'middleware' => 'auth']);
     $router->post('/edit/general',      ['uses' => 'ProfileController@editGeneral', 'middleware' => 'auth']);
 

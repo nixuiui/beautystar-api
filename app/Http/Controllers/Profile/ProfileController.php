@@ -2,14 +2,24 @@
 
 namespace App\Http\Controllers\Profile;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
 use Illuminate\Support\Facades\Hash;
 
-class ProfileController extends Controller
-{
+class ProfileController extends Controller {
+
+    public function accountInformation() {
+        $token = [
+            'access_token' => "",
+            'token_type' => 'bearer',
+            'expires_in' => 0
+        ];
+        $data = User::mapData(app('auth')->user(), $token);
+        return $this->responseOK(null, $data);
+    }
 
     public function editPassword(Request $input) {
         $validator = Validator::make($input->all(), [
