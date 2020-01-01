@@ -23,7 +23,7 @@ class MuaController extends Controller {
         return $this->responseError("Anda belum terdaftar sebagai Makeup Artist", null);
     }
 
-    public function serviceCreate(Request $request) {
+    public function serviceCreate(Request $request, $id = null) {
         $validator = Validator::make($request->all(), [
             'name'          => 'required',
             'category_id'   => 'required|exists:tbl_mua_service_categories,id',
@@ -38,7 +38,13 @@ class MuaController extends Controller {
         }
 
         if(Auth::user()->mua) {
-            $service                 = new MuaService;
+            if($id) {
+                $service = MuaService::find($id);
+                if(!$service) return $this->responseError("Data tidak ditemukan", null);
+            } else {
+                $service = new MuaService;
+            }
+
             $service->mua_id         = Auth::user()->mua->id;
             $service->name           = $request->name;
             $service->category_id    = $request->category_id;

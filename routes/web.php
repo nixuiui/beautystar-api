@@ -34,6 +34,7 @@ $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], func
     -------------------------------------------*/
     $router->get('/services',               ['uses' => 'MuaController@services', 'middleware' => 'auth']);
     $router->post('/services/create',       ['uses' => 'MuaController@serviceCreate', 'middleware' => 'auth']);
+    $router->post('/services/{id}/edit',    ['uses' => 'MuaController@serviceCreate', 'middleware' => 'auth']);
     $router->get('/services/{id}',          ['uses' => 'MuaController@serviceDetail', 'middleware' => 'auth']);
     $router->get('/services/{id}/delete',   ['uses' => 'MuaController@serviceDelete', 'middleware' => 'auth']);
     
