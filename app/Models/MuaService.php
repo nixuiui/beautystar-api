@@ -47,7 +47,9 @@ class MuaService extends Model
         return $this->price;
     }
     public function getFinalPriceFormattedAttribute(){
-        return formatUang($this->promo);
+        if($this->promo)
+            return formatUang($this->promo);
+        return formatUang($this->price);
     }
 
     public static function mapData($data, $additionalAttribute = null) {
@@ -58,7 +60,7 @@ class MuaService extends Model
             "name" => $data->name,
             "description" => $data->description,
             "price" => (int) $data->price,
-            "promo" => (int) $data->promo,
+            "promo" => $data->promo ? (int) $data->promo : null,
             "duration" => (int) $data->duration,
             "duration_formatted" => duration($data->duration),
             "min_person" => (int) $data->min_person,
