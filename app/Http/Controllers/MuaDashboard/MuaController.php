@@ -50,7 +50,7 @@ class MuaController extends Controller {
             $service->category_id    = $request->category_id;
             $service->description    = $request->description;
             $service->price          = $request->price;
-            $service->promo          = $request->promo;
+            $service->promo          = $request->promo == "" ? null : $request->promo;
             $service->min_person     = $request->min_person ?: 1;
             $service->is_premium     = $request->is_premium ? 1 : 0;
             $service->duration       = $request->duration;
