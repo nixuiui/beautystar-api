@@ -20,7 +20,7 @@ class MuaDP extends Model
             "id" => $data->id,
             "max" => $data->max,
             "max_formatted" => formatUang($data->max),
-            "is_used_dp" => $data->is_used_dp,
+            "is_used_dp" => (bool) $data->is_used_dp,
             "dp" => $data->dp,
             "dp_formatted" => formatUang($data->dp),
             "mua_id" => $data->mua_id
