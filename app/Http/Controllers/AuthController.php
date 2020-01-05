@@ -56,7 +56,7 @@ class AuthController extends Controller
         $token = [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => app('auth')->factory()->getTTL() * 60
+            'expires_in' => app('auth')->factory()->getTTL() * 10000
         ];
         $data = User::mapData(app('auth')->user(), $token);
         return $this->responseOK(null, $data);
