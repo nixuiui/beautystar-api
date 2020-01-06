@@ -57,6 +57,7 @@ class MuaService extends Model
             "id" => (int) $data->id,
             "mua_id" => (int) $data->mua_id,
             "category_id" => (int) $data->category_id,
+            "category" => (int) $data->category->name,
             "name" => $data->name,
             "description" => $data->description,
             "price" => (int) $data->price,
