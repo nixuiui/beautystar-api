@@ -95,7 +95,7 @@ class Mua extends Model
             'description' => $data->description,
             'instagram' => $data->instagram,
             'facebook' => $data->facebook,
-            'is_verified' => $data->is_verified,
+            'is_verified' => (bool) $data->is_verified,
             'full_address' => $data->full_address
         ];
         if($additionalAttribute) {
