@@ -97,7 +97,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'birth_date_formatted' => tanggal($data->birth_date),
             'photo' => $data->photo,
             'address_id' => $data->address_id,
-            'phone' => $data->phone
+            'phone' => $data->phone,
+            'phone_original' => $data->phone_original
         ];
         if($additionalAttribute) {
             $result = array_merge($result, $additionalAttribute);
