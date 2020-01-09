@@ -42,20 +42,21 @@ class ProfileController extends Controller {
     
     public function editGeneral(Request $input) {
         $validator = Validator::make($input->all(), [
-            'name'          => 'required',
-            'birth_date'    => 'required|date',
-            'phone_number'  => 'required|numeric',
-            'gender'        => 'required|in:1101,1102'
+            'birth_date'    => 'nullable|date',
+            'phone_number'  => 'nullable|numeric|unique:tbl_users,no_hp',
+            'email'         => 'nullable|email|unique:tbl_users,email',
+            'gender'        => 'nullable|in:1101,1102'
         ]);
         if ($validator->fails()) {
             return $this->responseNotValidInput("Ada field yang tidak valid", $validator->errors());
         }
         
         $user = Auth::user();
-        $user->name = $input->name;
-        $user->birth_date = $input->birth_date;
-        $user->no_hp = $input->phone_number;
-        $user->gender = $input->gender;
+        if($input->name) $user->name = $input->name;
+        if($input->birth_date) $user->birth_date = $input->birth_date;
+        if($input->phone_number) $user->no_hp = $input->phone_number;
+        if($input->email) $user->email = $input->email;
+        if($input->gender) $user->gender = $input->gender;
         $user->save();
 
         return $this->responseOK(null, User::mapData($user));
