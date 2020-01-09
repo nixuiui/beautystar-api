@@ -43,8 +43,8 @@ class ProfileController extends Controller {
     public function editGeneral(Request $input) {
         $validator = Validator::make($input->all(), [
             'birth_date'    => 'nullable|date',
-            'phone_number'  => 'nullable|numeric|unique:tbl_users,no_hp',
-            'email'         => 'nullable|email|unique:tbl_users,email',
+            'phone_number'  => 'nullable|numeric|unique:tbl_users,no_hp,' . Auth::id(),
+            'email'         => 'nullable|email|unique:tbl_users,email,' . Auth::id(),
             'gender'        => 'nullable|in:1101,1102'
         ]);
         if ($validator->fails()) {
