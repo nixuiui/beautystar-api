@@ -155,4 +155,33 @@ class MuaController extends Controller {
         }
     }
 
+    public function muaEdit(Request $input) {
+        $validator = Validator::make($input->all(), [
+            'brand_name'    => 'required',
+            'province_id'   => 'required|exists:set_provinces,id',
+            'city_id'       => 'required|exists:set_cities,id',
+            'description'   => 'required',
+            'address'       => 'required',
+            'instagram'     => 'nullable|alpha_dash',
+            'facebook'      => 'nullable|alpha_dash',
+        ]);
+        if ($validator->fails()) {
+            return $this->responseNotValidInput("Ada field yang tidak valid", $validator->errors());
+        }
+        
+        $mua = Mua::where("user_id", Auth::id())->first();
+
+        if(!$mua) return $this->responseError("Data MUA tidak ditemukan", null);
+
+        $mua->brand_name = $input->brand_name;
+        $mua->province_id = $input->province_id;
+        $mua->city_id = $input->city_id;
+        $mua->description = $input->description;
+        $mua->address = $input->address;
+        $mua->instagram = $input->instagram;
+        $mua->facebook = $input->facebook;
+        $mua->save();
+
+        return $this->responseOK(null, Mua::mapData($mua));
+    }
 }
