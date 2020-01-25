@@ -12,7 +12,7 @@ class ScheduleController extends Controller
 {
     
     public function index() {
-        $schedule = MuaSchedule::order('start_time', 'asc')->get();
+        $schedule = MuaSchedule::orderBy('start_time', 'asc')->get();
         return $this->responseOK(null, $schedule);
     }
 
