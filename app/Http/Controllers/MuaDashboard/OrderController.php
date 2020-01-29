@@ -129,7 +129,7 @@ class OrderController extends Controller
             $message = "Mohon maaf vendor (" . $order->mua->brand_name . ") belum bisa menerima orderan kamu, dengan alasan: \n";
             $message .= $request->comment . ".\n";
             $message .= "Jangan sedih, kamu masih bisa cari vendor lain di link \n";
-            $message .= route('mua');
+            $message .= "https://beautystar.id";
         }
 
         // $this->sendWhatsapp($order->phone, $message);
