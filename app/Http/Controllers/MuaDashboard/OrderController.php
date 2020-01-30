@@ -52,7 +52,7 @@ class OrderController extends Controller
     
     public function orderOnGoing() {
         $order = MuaOrder::where("mua_id", Auth::user()->mua->id)
-                        ->whereIn("order_status_id", [1201, 1202, 1204, 1205, 1207])
+                        ->whereIn("order_status_id", [1202, 1204, 1205, 1207])
                         ->get();
         $data = $order->map(function($item) {
             return MuaOrder::mapData($item);
