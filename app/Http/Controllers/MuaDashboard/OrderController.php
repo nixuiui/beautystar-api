@@ -42,7 +42,7 @@ class OrderController extends Controller
 
     public function orderCanceled() {
         $order = MuaOrder::where("mua_id", Auth::user()->mua->id)
-                        ->whereIn("order_status_id", [1202, 1208, 1209])
+                        ->whereIn("order_status_id", [1203, 1208, 1209])
                         ->get();
         $data = $order->map(function($item) {
             return MuaOrder::mapData($item);
