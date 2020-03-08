@@ -46,4 +46,24 @@ class WalletHistory extends Model
 
         return null;
     }
+
+    public static function mapData($data, $additionalAttribute = null) {
+        $result = [
+            "id" => $data->id,
+            "user_id" => $data->user_id,
+            "deb_cr" => $data->deb_cr,
+            "deb_cr_formatted" => formatUang($data->deb_cr),
+            "balance" => $data->balance,
+            "balance_formatted" => formatUang($data->balance),
+            "category_id" => $data->category_id,
+            "category" => $data->category->name,
+            "object_id" => $data->object_id,
+            "comment" => $data->comment,
+            "created_at" => $data->created_at
+        ];
+        if($additionalAttribute) {
+            $result = array_merge($result, $additionalAttribute);
+        }
+        return $result;
+    }
 }

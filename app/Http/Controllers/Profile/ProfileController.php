@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\WalletHistory;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
@@ -61,6 +62,14 @@ class ProfileController extends Controller {
         $user->save();
 
         return $this->responseOK(null, User::mapData($user));
+    }
+
+    public function income() {
+        $data = WalletHistory::where('user_id', Auth::user()->id)->get();
+        $data = $data->map(function($item) {
+            return WalletHistory::mapData($item);
+        });
+        return $this->responseOK(null, $data);
     }
 
 }
