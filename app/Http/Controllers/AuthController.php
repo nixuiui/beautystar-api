@@ -28,6 +28,10 @@ class AuthController extends Controller
             return $this->responseError("Maaf user tidak ditemukan.", null);
         }
 
+        if(!Auth::user()->mua) {
+            return $this->responseError("Maaf Anda belum terdaftar sebagai Vendor.", null);
+        }
+
         return $this->respondWithToken($token);
     }
 
