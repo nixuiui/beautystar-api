@@ -113,7 +113,8 @@ $router->group(['prefix' => 'profile', 'namespace' => 'Profile'], function ($rou
 });
 
 $router->group(['prefix' => 'masterdata'], function ($router) {
-    $router->get('/mua-service-categories',     ['uses' => 'MasterController@muaServiceCategories']);
+    $router->get('/service-categories',         ['uses' => 'MasterController@serviceCategories']);
+    // $router->get('/service-subcategories',      ['uses' => 'MasterController@serviceCategories']);
     $router->get('/province',                   ['uses' => 'MasterController@province']);
     $router->get('/city',                       ['uses' => 'MasterController@city']);
     $router->get('/city',                       ['uses' => 'MasterController@city']);

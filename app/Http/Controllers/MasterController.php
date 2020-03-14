@@ -5,21 +5,45 @@ namespace App\Http\Controllers;
 use App\Models\MuaServiceCategory;
 use App\Models\SetCity;
 use App\Models\SetProvince;
+use App\Models\VendorCategory;
 
 class MasterController extends Controller
 {
     
-    public function muaServiceCategories() {
-        $categories = MuaServiceCategory::whereNull("parent_id")->get();
-        $categories = $categories->map(function($item){
-            return [
-                'id' => $item->id,
-                'parent_id' => $item->parent_id,
-                'name' => $item->name
-            ];
-        });
+    public function serviceCategories() {
+        if(isset($_GET['vendor_id'])) {
+            $categories = MuaServiceCategory::where("vendor_category_id", $_GET['vendor_id'])->get();
+            $categories = $categories->map(function($item){
+                return [
+                    'id' => $item->id,
+                    'vendor_category_id' => $item->vendor_category_id,
+                    'vendor_category' => $item->vendorCategory->name,
+                    'name' => $item->name
+                ];
+            });
+        } else {
+            $categories = VendorCategory::all();
+            $categories = $categories->map(function($item){
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name
+                ];
+            });
+        }
         return $this->responseOK(null, $categories);
     }
+    
+    // public function serviceCategories() {
+    //     $categories = MuaServiceCategory::whereNull("parent_id")->get();
+    //     $categories = $categories->map(function($item){
+    //         return [
+    //             'id' => $item->id,
+    //             'parent_id' => $item->parent_id,
+    //             'name' => $item->name
+    //         ];
+    //     });
+    //     return $this->responseOK(null, $categories);
+    // }
 
     public function province() {
         if(!isset($_GET['id'])) {

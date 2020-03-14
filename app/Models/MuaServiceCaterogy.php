@@ -18,6 +18,9 @@ class MuaServiceCategory extends Model
     // }
 
     //RELATION table
+    public function vendorCategory() {
+        return $this->belongsTo('App\Models\VendorCategory', 'vendor_category_id');
+    }
     public function services() {
         return $this->hasMany('App\Models\MuaService', 'category_id');
     }
