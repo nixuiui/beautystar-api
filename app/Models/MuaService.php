@@ -22,6 +22,9 @@ class MuaService extends Model
   	public function mua() {
             return $this->belongsTo('App\Models\Mua', 'mua_id')->withDefault();
   	}
+  	public function vendorCategory() {
+            return $this->belongsTo('App\Models\VendorCategory', 'vendor_category_id')->withDefault();
+  	}
   	public function category() {
             return $this->belongsTo('App\Models\MuaServiceCategory', 'category_id')->withDefault();
   	}
@@ -56,16 +59,14 @@ class MuaService extends Model
         $result = [
             "id" => $data->id,
             "mua_id" => $data->mua_id,
-            "category_id" => $data->category_id,
-            "category" => $data->category->name,
+            "vendor_category_id" => $data->vendor_category_id,
+            "vendor_category" => $data->vendorCategory->name,
+            "service_category_id" => $data->category_id,
+            "service_category" => $data->category->name,
             "name" => $data->name,
             "description" => $data->description,
             "price" => $data->price,
             "promo" => $data->promo ? $data->promo : null,
-            "duration" => $data->duration,
-            "duration_formatted" => duration($data->duration),
-            "min_person" => $data->min_person,
-            "is_premium" => (boolean) $data->is_premium,
             "is_promo" => (boolean) $data->is_promo,
             "price_formatted" => $data->price_formatted,
             "final_price" => $data->final_price,
