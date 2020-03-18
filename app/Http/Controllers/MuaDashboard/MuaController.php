@@ -54,7 +54,7 @@ class MuaController extends Controller {
             $service->save();
 
             $data = MuaService::mapData($service);
-            return $this->responseOK("Berhasil menambah data", $data);
+            return $this->responseOK("Berhasil menyimpan data", $data);
         }
         return $this->responseError("Anda belum terdaftar sebagai Makeup Artist", null);
     }
