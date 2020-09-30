@@ -45,8 +45,8 @@ class ProfileController extends Controller {
         $validator = Validator::make($input->all(), [
             'name'          => 'required',
             'birth_date'    => 'nullable|date',
-            'phone_number'  => 'required|numeric|unique:tbl_users,no_hp,' . Auth::id(),
-            'email'         => 'required|email|unique:tbl_users,email,' . Auth::id(),
+            'phone_number'  => 'nullable|numeric|unique:tbl_users,no_hp,' . Auth::id(),
+            'email'         => 'nullable|email|unique:tbl_users,email,' . Auth::id(),
             'gender'        => 'nullable|in:1101,1102'
         ]);
         if ($validator->fails()) {
