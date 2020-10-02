@@ -93,7 +93,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'balance_formatted' => $data->balance_formatted,
             'gender' => $data->gender,
             'gender_alias' => $data->gender_alias,
-            'birth_date' => $data->birth_date,
+            'birth_date' => date("Y-m-d", strtotime($data->birth_date)),
             'birth_date_formatted' => tanggal($data->birth_date),
             'photo' => $data->photo,
             'address_id' => $data->address_id,
