@@ -10,6 +10,7 @@ class Controller extends BaseController
     use BaseResponseTrait;
 
     public $adminFeePercentage = 0.1;
+    public $useEmailNotification = false;
     
     public $defaultLimitPerPage = 20;
     public $maxLimitPerPage = 100;

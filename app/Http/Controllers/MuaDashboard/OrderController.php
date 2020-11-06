@@ -31,6 +31,8 @@ class OrderController extends Controller
     }
     
     public function orderFinished() {
+        // 1210 - Makeup sudah dilakukan
+        // 1211 - Selesai
         $order = MuaOrder::where("mua_id", Auth::user()->mua->id)
                         ->whereIn("order_status_id", [1210, 1211])
                         ->get();
@@ -41,6 +43,9 @@ class OrderController extends Controller
     }
 
     public function orderCanceled() {
+        // 1203 - Ditolak oleh Vendor
+        // 1208 - Dibatalkan oleh customer
+        // 1209 - Dibatalkan oleh Vendor
         $order = MuaOrder::where("mua_id", Auth::user()->mua->id)
                         ->whereIn("order_status_id", [1203, 1208, 1209])
                         ->get();
@@ -118,7 +123,7 @@ class OrderController extends Controller
 
             // EMAIL TO CUSTOMER
             $dataEmail = ['mua' => $mua,'booking' => $order];
-            Mail::send('email.pesananditerima', $dataEmail, function ($mail) use ($order, $mua)  {
+            if($this->useEmailNotification) Mail::send('email.pesananditerima', $dataEmail, function ($mail) use ($order, $mua)  {
                 $mail->to($order->email, $order->name);
                 $mail->subject('Pesanan Anda Diterima Oleh ' . $mua->brand_name . '. Segera Lakukan Pembayaran.');
             });
@@ -227,6 +232,26 @@ class OrderController extends Controller
         $user->balance = $muaWallet->balance;
         $user->save();
 
+        return $this->responseOK(null, MuaOrder::mapDataDetail($order));
+    }
+
+    public function cancel($id) {
+        $order = MuaOrder::where('id', $id)
+                ->where('user_id', Auth::user()->id)
+                ->first();
+
+        if($order->order_status_id >= 1208)
+            return $this->responseOK(null, MuaOrder::mapDataDetail($order));
+
+        $status = new MuaOrderStatus;
+        $status->order_id = $order->id;
+        $status->status_id = 1209;
+        $status->user_id = Auth::user()->id;
+        $status->comment = "Vendor membatalkan orderan ini";
+        $status->save();
+
+        $order->order_status_id = 1209;
+        $order->save();
         return $this->responseOK(null, MuaOrder::mapDataDetail($order));
     }
 

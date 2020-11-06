@@ -12,7 +12,10 @@ class ScheduleController extends Controller
 {
     
     public function index() {
-        $schedule = MuaSchedule::whereDate('start_time', '>=', date('Y-m-d'))->orderBy('start_time', 'asc')->get();
+        $schedule = MuaSchedule::whereDate('start_time', '>=', date('Y-m-d'))
+                    ->where("mua_id", Auth::user()->mua->id)
+                    ->orderBy('start_time', 'asc')
+                    ->get();
         return $this->responseOK(null, $schedule);
     }
 
@@ -78,7 +81,7 @@ class ScheduleController extends Controller
     }
     
     public function detail($id) {
-        $schedule = MuaSchedule::where("mua_id", Auth::user()->mua->id)
+        return $schedule = MuaSchedule::where("mua_id", Auth::user()->mua->id)
                                 ->where("id", $id)
                                 ->first();
         return $this->responseOK(null, MuaSchedule::mapData($schedule));

@@ -42,7 +42,7 @@ class MuaOrderStatus extends Model
             "user_id" => $data->user_id,
             "user" => $data->user->name,
             "comment" => $data->comment,
-            "created_at" => hariTanggalWaktu($data->created_at),
+            "created_at" => date("Y-m-d H:i:s", strtotime($data->created_at)),
         ];
         if ($additionalAttribute) {
             $result = array_merge($result, $additionalAttribute);

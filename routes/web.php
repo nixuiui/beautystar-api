@@ -56,6 +56,7 @@ $router->group(['prefix' => 'muadashboard', 'namespace' => 'MuaDashboard'], func
     $router->get('/order/detail/{id}',      ['uses' => 'OrderController@detailOrder', 'middleware' => 'auth']);
     $router->post('/order/approval/{id}',   ['uses' => 'OrderController@approvalOrder', 'middleware' => 'auth']);
     $router->post('/order/complete/{id}',   ['uses' => 'OrderController@completeOrder', 'middleware' => 'auth']);
+    $router->get('/order/cancel/{id}',      ['uses' => 'OrderController@cancel', 'middleware' => 'auth']);
 
     /*-------------------------------------------
     | SCHEDULE

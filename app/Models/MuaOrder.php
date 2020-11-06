@@ -111,7 +111,9 @@ class MuaOrder extends Model
             "planing_date" => hariTanggal($data->planing_time),
             "planing_clock" => jamMenitA($data->planing_time),
             "address" => $data->address ?: $data->mua->address,
-            "services" => $services,
+            "services" => $data->details->map(function ($item) {
+                return MuaOrderDetail::mapData($item);
+            }),
             "province_id" => $data->province_id,
             "province" => $data->province->name,
             "city_id" => $data->city_id,
@@ -121,6 +123,7 @@ class MuaOrder extends Model
             "order_status_id" => $data->order_status_id,
             "order_status" => $data->status->name,
             "is_rated" => $data->is_rated,
+            "created_at" => $data->created_at,
         ];
         if ($additionalAttribute) {
             $result = array_merge($result, $additionalAttribute);
@@ -177,6 +180,7 @@ class MuaOrder extends Model
             "order_status_id" => $data->order_status_id,
             "order_status" => $data->status->name,
             "is_rated" => $data->is_rated,
+            "created_at" => $data->created_at,
             "services" => $data->details->map(function ($item) {
                 return MuaOrderDetail::mapData($item);
             }),
