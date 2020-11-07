@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Mua;
+use App\Models\MuaOrder;
 use App\Models\MuaPortfolio;
+use App\Models\MuaSchedule;
 use App\Models\MuaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -180,5 +182,24 @@ class MuaController extends Controller {
         $mua->save();
 
         return $this->responseOK(null, Mua::mapData($mua));
+    }
+
+    public function summary() {
+        $service = MuaService::where("mua_id", Auth::user()->mua->id)->get()->count();
+        $order = MuaOrder::where("mua_id", Auth::user()->mua->id)->get()->count();
+        $ongoingOrder = MuaOrder::where("mua_id", Auth::user()->mua->id)
+                            ->whereIn("order_status_id", [1201, 1202, 1204, 1205, 1207])
+                            ->get()->count();
+        $schedule = MuaSchedule::where("mua_id", Auth::user()->mua->id)
+                            ->whereDate("start_time", ">=", date("Y-m-d H:i:s"))
+                            ->get()->count();
+        $data = [
+            "balance" => Auth::user()->balance,
+            "service_count" => $service,
+            "order_count" => $order,
+            "ongoing_order_count" => $ongoingOrder,
+            "schedule_count" => $schedule,
+        ];
+        return $this->responseOK(null, $data);
     }
 }
