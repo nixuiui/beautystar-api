@@ -34,6 +34,9 @@ class MuaService extends Model
     public function orders() {
       return $this->hasMany('App\Models\MuaOrderDetail', 'service_id');
     }
+    public function portfolios() {
+        return $this->hasMany('App\Models\MuaPortfolio', 'service_id');
+    }
     
     // APPEND ATTRIBUTE
     public function getPriceFormattedAttribute(){
@@ -72,6 +75,9 @@ class MuaService extends Model
             "final_price" => $data->final_price,
             "final_price_formatted" => $data->final_price_formatted,
             "created_at" => hariTanggal($data->created_at),
+            "portfolios" => $data->portfolios->map(function($item){
+                return MuaPortfolio::mapData($item);
+            })
         ];
         if($additionalAttribute) {
             $result = array_merge($result, $additionalAttribute);
