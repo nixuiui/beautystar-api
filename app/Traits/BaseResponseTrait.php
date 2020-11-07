@@ -27,7 +27,7 @@ trait BaseResponseTrait {
         return response()->json($attribue, $responseCode, [], JSON_NUMERIC_CHECK);
     }
 
-    public function responseError($message = null, $data = null, $responseCode = 200) {
+    public function responseError($message = null, $data = null, $responseCode = 400) {
         $attribue = [
             "status"    => "ERROR",
             "message"   => $message,
@@ -36,7 +36,7 @@ trait BaseResponseTrait {
         return response()->json($attribue, $responseCode, [], JSON_NUMERIC_CHECK);
     }
     
-    public function responseNotValidInput($message = null, $data = null, $responseCode = 200) {
+    public function responseNotValidInput($message = null, $data = null, $responseCode = 402) {
         $attribue = [
             "status"    => "INVALID_INPUT",
             "message"   => $message,
